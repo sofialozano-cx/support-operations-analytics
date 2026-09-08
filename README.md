@@ -2,12 +2,12 @@
 
 # Support Operations Analytics
 
-### Support KPIs · SQL · SLA · CSAT · Operational Insights
+### React · TypeScript · SQL · Support KPIs · Operational Insights
 
 ![Status](https://img.shields.io/badge/Status-Live-6D28D9?style=flat-square)
-![SQL](https://img.shields.io/badge/Analysis-SQL-4F46E5?style=flat-square)
-![Data](https://img.shields.io/badge/Dataset-Synthetic-7C3AED?style=flat-square)
-![Dashboard](https://img.shields.io/badge/Dashboard-Interactive-8B5CF6?style=flat-square)
+![React](https://img.shields.io/badge/Frontend-React-4F46E5?style=flat-square)
+![TypeScript](https://img.shields.io/badge/Language-TypeScript-7C3AED?style=flat-square)
+![SQL](https://img.shields.io/badge/Analysis-SQL-8B5CF6?style=flat-square)
 
 **[→ Open Live Dashboard](https://support-operations-analytics.vercel.app/)**
 
@@ -17,39 +17,61 @@
 
 ## Overview
 
-This project analyzes a **fictional SaaS support operation** using a synthetic ticket dataset and an interactive dashboard. The objective is to demonstrate how support data can be translated into operational decisions rather than treated as isolated metrics.
+A **React + TypeScript support-operations application** built around a synthetic SaaS ticket dataset. The project combines frontend engineering, typed analytics logic and SQL analysis to translate support metrics into operational decisions.
 
-The analysis connects **First Response Time, Resolution Time, SLA Compliance, CSAT, escalation, reopen rate, ticket category, channel and priority**. The live dashboard adds dynamic segmentation so the operation can be explored by category, channel and priority.
+The application calculates and segments **First Response Time, Resolution Time, SLA Compliance, CSAT, escalation, reopen rate, ticket category, channel and priority**. Filters update the dashboard in real time, while the operational-signal logic distinguishes healthy performance from queues that should be monitored or investigated.
 
-> The dataset is synthetic and was created exclusively for portfolio analysis. It contains no real customer or employer data.
+> All ticket data is synthetic and created exclusively for portfolio use. No real customer or employer data is included.
 
-### Live Project
-
-**[Launch Interactive Dashboard →](https://support-operations-analytics.vercel.app/)**  
-**[View Source Repository →](https://github.com/sofialozano-cx/support-operations-analytics)**
+**[Launch Interactive Dashboard →](https://support-operations-analytics.vercel.app/)** · **[View Source →](https://github.com/sofialozano-cx/support-operations-analytics)**
 
 ---
 
-## What the Dashboard Demonstrates
+## Technical Architecture
 
-- Dynamic filtering by **category, channel and priority**.
-- Live calculation of **ticket volume, SLA compliance, average first response, average resolution and CSAT**.
-- Category-level comparison of ticket volume and SLA performance.
-- Operational-health table combining volume, SLA, escalation and resolution time.
-- Context-aware operational signals that distinguish between **healthy performance, monitoring signals and higher-priority risk**.
-- Direct use of the project's synthetic CSV dataset as the dashboard data source.
-- Responsive presentation for desktop and mobile.
+```text
+CSV support dataset
+       ↓
+TypeScript parser + typed Ticket model
+       ↓
+Analytics functions
+       ↓
+React state + derived filtered dataset
+       ↓
+Reusable dashboard components
+       ↓
+Responsive UI
+       ↓
+Vite production build → Vercel
+```
+
+### Frontend
+
+`React` · `TypeScript` · `Vite` · `CSS`
+
+### Data & Analysis
+
+`SQL` · `CSV` · `Support KPI Analysis` · `Segmentation` · `Operational Diagnosis`
+
+### React structure
+
+- `App.tsx` — application state, data loading, filtering and dashboard composition.
+- `components/Dashboard.tsx` — reusable filter, KPI, chart and table components.
+- `lib/analytics.ts` — parsing, aggregation, KPI calculations and operational-signal logic.
+- `types/support.ts` — typed support-ticket, filter and metric models.
+- `styles.css` — responsive visual system and dashboard presentation.
 
 ---
 
-## Business Questions
+## Dashboard Capabilities
 
-1. Is the support operation meeting its response SLAs?
-2. Which issue categories create the most operational friction?
-3. Where are escalations concentrated?
-4. Which categories take longest to resolve?
-5. What does CSAT reveal that volume alone does not?
-6. Where should Support Operations focus first?
+- Filter tickets dynamically by **category, channel and priority**.
+- Calculate **ticket volume, SLA compliance, First Response Time, Resolution Time and CSAT** from the selected dataset.
+- Compare ticket volume and SLA performance by category.
+- Review operational health across volume, SLA, escalation and resolution time.
+- Generate context-aware signals: **within expected range**, **should be monitored**, or **needs attention**.
+- Read the CSV dataset directly rather than duplicating analytics data in application code.
+- Responsive desktop and mobile interface.
 
 ---
 
@@ -65,13 +87,13 @@ The analysis connects **First Response Time, Resolution Time, SLA Compliance, CS
 | Reopen Rate | **16.7%** |
 | Avg. CSAT* | **4.50 / 5** |
 
-\*CSAT average uses tickets where a survey response exists.
+\*CSAT uses tickets where a survey response exists.
 
 ### Main finding
 
-The overall CSAT is strong, but the operation has a **reliability problem hidden behind the average satisfaction score**. Only 70% of tickets meet first-response SLA, while Bug tickets meet SLA only 40% of the time and have the longest average resolution time (15.9 h). API / Integration tickets represent the largest category and carry a 31% escalation rate.
+Strong overall CSAT hides a reliability issue. Only **70% of tickets meet first-response SLA**. Bug tickets have **40% SLA compliance**, **50% escalation** and the longest average resolution time at **15.9 h**. API / Integration is the largest queue and carries a **31% escalation rate**.
 
-This suggests the first improvement priority should be **technical-ticket handling**, not a generic effort to reduce response time equally across every queue.
+The analysis therefore prioritizes **technical-ticket handling and escalation quality** instead of applying the same improvement effort to every queue.
 
 ---
 
@@ -86,39 +108,23 @@ This suggests the first improvement priority should be **technical-ticket handli
 | Authentication | 7 | 10.7 h | 86% | 0% | 4.33 |
 | Data Import | 2 | 14.2 h | 50% | 0% | 5.00 |
 
-> Data Import has only two observations, so it should not be treated as a stable category-level trend.
+> Data Import contains only two observations and should not be interpreted as a stable category-level trend.
 
 ---
 
-## Operational Diagnosis
+## Operational Recommendations
 
-### 1. Bug queue is the clearest bottleneck
+**Bug triage:** standardize reproduction evidence, severity criteria and Engineering escalation requirements.
 
-Bug tickets combine three negative signals: the **longest average resolution time**, **lowest SLA compliance**, and **highest escalation rate**. This is more actionable than looking at ticket volume alone.
+**API / Integration:** turn recurring investigations into troubleshooting documentation and reusable runbooks; improve evidence collection before Engineering handoff.
 
-**Recommendation:** create a dedicated bug-triage workflow with required reproduction evidence, severity criteria and a standardized Engineering escalation template.
+**Billing:** preserve the current workflow rather than prioritizing improvement based on volume alone.
 
-### 2. API / Integration deserves proactive support investment
-
-API / Integration is the largest ticket category (16/60) and almost one-third of these tickets are escalated.
-
-**Recommendation:** analyze recurring API drivers and turn repeat investigations into troubleshooting documentation, examples and internal runbooks. Better evidence collection at first contact may also reduce unnecessary Engineering handoffs.
-
-### 3. Billing demonstrates that volume does not equal operational difficulty
-
-Billing has 13 tickets — the second-highest volume — but 92% SLA compliance, zero escalations in this sample and the fastest category-level average resolution among the larger queues.
-
-**Recommendation:** preserve the workflow rather than allocating improvement effort based solely on volume.
-
-### 4. CSAT needs context
-
-An average CSAT of 4.50 can make the operation appear healthier than it is. SLA compliance is only 70%, and 16.7% of tickets reopen.
-
-**Recommendation:** review CSAT together with SLA, reopen rate, resolution time and escalation instead of using satisfaction as a standalone health metric.
+**CSAT interpretation:** evaluate satisfaction alongside SLA, reopen rate, resolution time and escalation instead of treating CSAT as a standalone health measure.
 
 ---
 
-## SLA Definition Used in This Simulation
+## SLA Model
 
 | Priority | First Response Target |
 |---|---:|
@@ -135,62 +141,51 @@ An average CSAT of 4.50 can make the operation appear healthier than it is. SLA 
 
 ```text
 support-operations-analytics/
-│
-├── README.md
-├── index.html
-├── dashboard/
-│   └── index.html
+├── src/
+│   ├── components/
+│   │   └── Dashboard.tsx
+│   ├── lib/
+│   │   └── analytics.ts
+│   ├── types/
+│   │   └── support.ts
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── styles.css
 ├── data/
 │   └── support_tickets.csv
 ├── sql/
 │   └── support_analysis.sql
 ├── analysis/
 │   └── findings.md
-└── docs/
-    └── metric-definitions.md
-```
-
----
-
-## Analysis Workflow
-
-```text
-Synthetic Ticket Data
-        ↓
-Data Quality Check
-        ↓
-Define Support KPIs
-        ↓
-SQL Analysis
-        ↓
-Segment by Category / Priority / Channel
-        ↓
-Identify Operational Bottlenecks
-        ↓
-Interactive Dashboard
-        ↓
-Recommend Support Improvements
+├── docs/
+│   └── metric-definitions.md
+├── index.html
+├── package.json
+├── tsconfig.json
+├── tsconfig.app.json
+├── vite.config.ts
+└── README.md
 ```
 
 ---
 
 ## Skills Demonstrated
 
-`Support Operations` · `SQL` · `Customer Experience Analytics` · `SLA` · `CSAT` · `First Response Time` · `Resolution Time` · `Escalation Rate` · `Reopen Rate` · `KPI Analysis` · `Operational Decision-Making` · `Data Visualization` · `HTML` · `CSS` · `JavaScript`
+`React` · `TypeScript` · `Vite` · `Component Architecture` · `Typed Data Models` · `Frontend State` · `Data Visualization` · `SQL` · `Support Operations` · `SLA` · `CSAT` · `KPI Analysis` · `Operational Decision-Making`
 
 ---
 
 ## Analytical Limitations
 
-This is a deliberately small portfolio dataset. Results should be interpreted as demonstrations of analytical method rather than production benchmarks. Category sizes vary, CSAT is not available for every ticket, and observed relationships do not establish causation. A real Support Operations analysis would additionally validate metric definitions, data completeness, business hours, SLA policy, seasonality and longer-term trends.
+This is a deliberately small synthetic dataset. Results demonstrate analytical method rather than production benchmarks. Category sizes vary, CSAT is unavailable for some tickets, and observed relationships do not establish causation. A production analysis would additionally validate metric definitions, data completeness, business hours, SLA policy, seasonality and longer-term trends.
 
 ---
 
 ## Portfolio Context
 
-I have a professional background in **customer experience, CRM and customer-facing operations** and I am currently pursuing **Software Engineering**. This project connects those areas by demonstrating how I would use structured support data to understand operational performance and prioritize improvements.
+I have a professional background in **customer experience, CRM and customer-facing operations** and I am currently pursuing **Software Engineering**. This project connects those areas through a working application that combines support-domain reasoning, data analysis and frontend engineering.
 
-The data and business scenario are fictional. The analysis is portfolio work and is not presented as analysis performed for a previous employer.
+The scenario is fictional and is not presented as work performed for a previous employer.
 
 ---
 
