@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Support Operations Dashboard · Sofia Lozano</title>
+<style>
+:root{--bg:#f7f7fb;--card:#fff;--ink:#191724;--muted:#6d6878;--line:#e8e5ef;--accent:#6d28d9;--accent2:#4f46e5;--soft:#f1ebff}*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}.wrap{max-width:1180px;margin:auto;padding:42px 22px 70px}.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:800}h1{font-size:clamp(32px,5vw,58px);line-height:1;margin:10px 0 14px;letter-spacing:-.04em}.lead{max-width:760px;color:var(--muted);font-size:17px;line-height:1.6}.note{font-size:12px;color:var(--muted);margin-top:14px}.filters{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 18px}.filters select{background:white;border:1px solid var(--line);border-radius:10px;padding:10px 14px;color:var(--ink)}.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 5px 20px rgba(40,25,75,.04)}.kpi .label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}.kpi .value{font-size:30px;font-weight:800;margin-top:8px}.kpi .sub{font-size:12px;color:var(--muted);margin-top:4px}.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;margin-top:14px}.card h2{font-size:17px;margin:0 0 18px}.bars{display:grid;gap:14px}.barrow{display:grid;grid-template-columns:145px 1fr 55px;align-items:center;gap:10px;font-size:13px}.track{height:9px;background:#eeeaf5;border-radius:99px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px}.right{text-align:right;font-variant-numeric:tabular-nums}.insight{background:linear-gradient(135deg,#221934,#33245c);color:white}.insight h2{color:white}.insight p{color:#ded7ec;line-height:1.55}.tag{display:inline-block;padding:6px 9px;border-radius:999px;background:rgba(255,255,255,.1);font-size:11px;margin:3px}.tablewrap{overflow:auto}.table{width:100%;border-collapse:collapse;font-size:13px}.table th,.table td{text-align:left;padding:11px 8px;border-bottom:1px solid var(--line);white-space:nowrap}.table th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}footer{margin-top:28px;color:var(--muted);font-size:12px}a{color:var(--accent);text-decoration:none;font-weight:700}@media(max-width:850px){.kpis{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.barrow{grid-template-columns:120px 1fr 48px}}@media(max-width:480px){.kpis{grid-template-columns:1fr 1fr}.wrap{padding:28px 14px}.card{padding:16px}}
+</style>
+</head>
+<body><main class="wrap">
+<div class="eyebrow">Support Operations · Portfolio Case Study</div><h1>From ticket volume<br>to operational decisions.</h1>
+<p class="lead">An interactive view of a fictional SaaS support operation, built to demonstrate KPI interpretation, segmentation and support-operations reasoning.</p>
+<p class="note">Synthetic dataset · 60 fictional tickets · July 2026 · No real customer or employer data</p>
+<div class="filters"><select id="category"><option value="All">All categories</option></select><select id="channel"><option value="All">All channels</option></select><select id="priority"><option value="All">All priorities</option></select></div>
+<section class="kpis">
+<div class="card kpi"><div class="label">Tickets</div><div class="value" id="tickets">—</div><div class="sub">selected sample</div></div>
+<div class="card kpi"><div class="label">SLA compliance</div><div class="value" id="sla">—</div><div class="sub">target ≥ 85%</div></div>
+<div class="card kpi"><div class="label">Avg first response</div><div class="value" id="frt">—</div><div class="sub">minutes</div></div>
+<div class="card kpi"><div class="label">Avg resolution</div><div class="value" id="res">—</div><div class="sub">hours</div></div>
+<div class="card kpi"><div class="label">CSAT</div><div class="value" id="csat">—</div><div class="sub">rated tickets only</div></div>
+</section>
+<section class="grid"><div class="card"><h2>Ticket volume by category</h2><div class="bars" id="volume"></div></div><div class="card insight"><div class="eyebrow" style="color:#c9b5ff">Operations signal</div><h2 id="signalTitle">Loading insight…</h2><p id="signal"></p><div><span class="tag">SLA</span><span class="tag">Escalation</span><span class="tag">Resolution</span><span class="tag">CSAT</span></div></div></section>
+<section class="grid"><div class="card"><h2>SLA compliance by category</h2><div class="bars" id="slabars"></div></div><div class="card"><h2>Operational health</h2><div class="tablewrap"><table class="table"><thead><tr><th>Category</th><th>Tickets</th><th>SLA</th><th>Esc.</th><th>Resolution</th></tr></thead><tbody id="health"></tbody></table></div></div></section>
+<footer>Built by <strong>Sofia Lozano</strong> · Customer Experience · Technical Support · CRM & Support Operations · <a href="https://github.com/sofialozano-cx/support-operations-analytics">View repository</a></footer>
+</main>
+<script>
+const csv=`ticket_id,created_at,category,channel,priority,first_response_minutes,resolution_hours,sla_met,escalated,reopened,csat
+TKT-1001,2026-07-19 08:00,Account,Email,Normal,19.8,14.9,1,0,1,
+TKT-1002,2026-07-13 04:00,Authentication,Email,Normal,46.7,11.5,1,0,0,4
+TKT-1003,2026-07-05 06:00,Bug,Email,High,53.6,11.6,0,1,0,
+TKT-1004,2026-07-13 20:00,API / Integration,Email,Normal,22.8,1.9,1,0,1,
+TKT-1005,2026-07-11 06:00,Bug,Chat,High,45.0,22.9,0,1,1,4
+TKT-1006,2026-07-04 09:00,Bug,Email,Normal,63.2,6.1,0,1,0,5
+TKT-1007,2026-07-03 17:00,Account,Email,High,15.6,8.0,1,0,0,5
+TKT-1008,2026-07-29 07:00,Billing,Email,Normal,23.0,4.8,1,0,0,
+TKT-1009,2026-07-16 18:00,API / Integration,Web,Normal,14.1,4.2,1,0,0,4
+TKT-1010,2026-07-04 01:00,Billing,Web,Normal,10.5,1.6,1,0,0,5
+TKT-1011,2026-07-28 16:00,API / Integration,Chat,Normal,21.9,14.2,1,0,0,5
+TKT-1012,2026-07-28 00:00,API / Integration,Email,Normal,4.2,18.3,1,0,1,5
+TKT-1013,2026-07-15 03:00,Billing,Chat,Normal,14.9,15.4,1,0,1,5
+TKT-1014,2026-07-22 01:00,API / Integration,Email,Normal,74.0,20.3,0,1,1,5
+TKT-1015,2026-07-24 08:00,Bug,Web,Normal,12.9,21.5,1,0,0,5
+TKT-1016,2026-07-11 21:00,Bug,Chat,High,32.3,21.9,0,1,0,
+TKT-1017,2026-07-15 10:00,Billing,Email,Normal,20.3,5.0,1,0,0,4
+TKT-1018,2026-07-18 16:00,Authentication,Email,High,19.2,3.3,1,0,0,4
+TKT-1019,2026-07-18 12:00,Billing,Email,Normal,34.1,9.7,1,0,1,5
+TKT-1020,2026-07-04 13:00,Account,Web,Normal,17.6,11.1,1,0,0,4
+TKT-1021,2026-07-08 10:00,API / Integration,Web,Normal,7.6,25.0,1,0,0,
+TKT-1022,2026-07-13 12:00,API / Integration,Chat,High,68.1,4.8,0,1,0,5
+TKT-1023,2026-07-24 11:00,API / Integration,Web,Urgent,28.2,18.2,0,1,0,5
+TKT-1024,2026-07-04 06:00,Authentication,Email,Low,53.0,18.4,1,0,0,5
+TKT-1025,2026-07-26 05:00,Account,Chat,Normal,12.5,17.9,1,0,0,5
+TKT-1026,2026-07-04 10:00,Account,Email,Normal,51.6,6.8,1,0,0,5
+TKT-1027,2026-07-11 18:00,Authentication,Chat,Normal,11.1,11.1,1,0,1,4
+TKT-1028,2026-07-29 15:00,API / Integration,Email,High,54.0,15.6,0,0,0,5
+TKT-1029,2026-07-30 15:00,Authentication,Web,Normal,67.2,15.0,0,0,0,4
+TKT-1030,2026-07-06 21:00,Account,Email,Normal,68.3,17.0,0,0,1,4
+TKT-1031,2026-07-24 14:00,Account,Email,High,43.2,9.0,0,1,0,5
+TKT-1032,2026-07-03 00:00,Authentication,Email,Normal,34.5,1.5,1,0,0,
+TKT-1033,2026-07-11 10:00,Data Import,Email,Normal,11.3,15.8,1,0,0,5
+TKT-1034,2026-07-11 22:00,Bug,Web,High,66.6,1.9,0,0,0,
+TKT-1035,2026-07-11 01:00,Billing,Chat,Normal,65.9,17.3,0,0,0,4
+TKT-1036,2026-07-24 05:00,Billing,Chat,Normal,23.8,2.0,1,0,0,5
+TKT-1037,2026-07-14 17:00,Billing,Email,High,22.5,11.9,1,0,0,5
+TKT-1038,2026-07-30 15:00,API / Integration,Web,Normal,67.9,5.5,0,1,0,5
+TKT-1039,2026-07-14 03:00,Account,Chat,High,29.9,2.1,1,0,0,4
+TKT-1040,2026-07-08 18:00,API / Integration,Chat,Normal,53.5,14.3,1,1,0,4
+TKT-1041,2026-07-20 04:00,Account,Email,Normal,4.0,6.2,1,0,0,5
+TKT-1042,2026-07-05 07:00,Account,Chat,High,72.1,14.9,0,0,0,5
+TKT-1043,2026-07-04 10:00,Bug,Chat,High,19.9,7.3,1,1,0,4
+TKT-1044,2026-07-05 21:00,API / Integration,Web,Normal,55.0,10.1,1,0,0,5
+TKT-1045,2026-07-23 23:00,Bug,Email,High,53.4,15.5,0,0,0,3
+TKT-1046,2026-07-08 02:00,Data Import,Chat,Urgent,43.7,12.5,0,0,0,5
+TKT-1047,2026-07-13 12:00,Bug,Chat,Normal,21.6,20.8,1,0,1,4
+TKT-1048,2026-07-15 10:00,Billing,Email,High,9.7,3.6,1,0,0,4
+TKT-1049,2026-07-17 13:00,API / Integration,Email,Normal,33.8,22.7,1,0,0,
+TKT-1050,2026-07-22 03:00,API / Integration,Web,Normal,31.7,22.4,1,0,0,5
+TKT-1051,2026-07-27 21:00,Billing,Email,Low,39.0,13.8,1,0,0,4
+TKT-1052,2026-07-20 17:00,API / Integration,Web,Normal,51.1,2.9,1,0,0,4
+TKT-1053,2026-07-16 06:00,Billing,Chat,Normal,57.4,16.8,1,0,0,1
+TKT-1054,2026-07-11 12:00,Billing,Email,Urgent,4.5,1.3,1,0,0,
+TKT-1055,2026-07-06 05:00,Authentication,Chat,Normal,19.5,14.2,1,0,0,5
+TKT-1056,2026-07-26 14:00,Bug,Email,Normal,45.1,29.8,1,0,0,5
+TKT-1057,2026-07-16 03:00,Account,Chat,Normal,58.8,17.1,1,0,0,5
+TKT-1058,2026-07-20 22:00,API / Integration,Chat,Low,70.0,1.2,1,0,0,4
+TKT-1059,2026-07-26 14:00,Account,Email,High,72.5,5.9,0,0,0,4
+TKT-1060,2026-07-02 13:00,Billing,Web,High,10.2,17.7,1,0,0,5`;
+const rows=csv.split('\n').slice(1).map(l=>{const a=l.split(',');return{ticket:a[0],category:a[2],channel:a[3],priority:a[4],fr:+a[5],res:+a[6],sla:+a[7],esc:+a[8],reopen:+a[9],csat:a[10]?+a[10]:null}});
+const $=id=>document.getElementById(id), avg=(a,f)=>a.length?a.reduce((s,x)=>s+f(x),0)/a.length:0, pct=n=>`${Math.round(n*100)}%`;
+function options(id,key){[...new Set(rows.map(x=>x[key]))].sort().forEach(v=>$(id).insertAdjacentHTML('beforeend',`<option>${v}</option>`))} options('category','category');options('channel','channel');options('priority','priority');
+function group(data){let g={};data.forEach(x=>(g[x.category]??=[]).push(x));return g}
+function bars(el,groups,metric,fmt){let vals=Object.entries(groups).map(([k,v])=>[k,metric(v)]).sort((a,b)=>b[1]-a[1]),max=Math.max(...vals.map(x=>x[1]),1);$(el).innerHTML=vals.map(([k,v])=>`<div class="barrow"><span>${k}</span><div class="track"><div class="fill" style="width:${v/max*100}%"></div></div><span class="right">${fmt(v)}</span></div>`).join('')||'<span>No data</span>'}
+function render(){let d=rows.filter(x=>($('category').value==='All'||x.category===$('category').value)&&($('channel').value==='All'||x.channel===$('channel').value)&&($('priority').value==='All'||x.priority===$('priority').value));let rated=d.filter(x=>x.csat!==null),g=group(d);$('tickets').textContent=d.length;$('sla').textContent=pct(avg(d,x=>x.sla));$('frt').textContent=avg(d,x=>x.fr).toFixed(1);$('res').textContent=avg(d,x=>x.res).toFixed(1);$('csat').textContent=rated.length?avg(rated,x=>x.csat).toFixed(2)+'/5':'—';bars('volume',g,v=>v.length,v=>v);bars('slabars',g,v=>avg(v,x=>x.sla),pct);$('health').innerHTML=Object.entries(g).sort((a,b)=>b[1].length-a[1].length).map(([k,v])=>`<tr><td>${k}</td><td>${v.length}</td><td>${pct(avg(v,x=>x.sla))}</td><td>${pct(avg(v,x=>x.esc))}</td><td>${avg(v,x=>x.res).toFixed(1)}h</td></tr>`).join('');let risk=Object.entries(g).map(([k,v])=>({k,v,score:(1-avg(v,x=>x.sla))+avg(v,x=>x.esc)+avg(v,x=>x.res)/30})).sort((a,b)=>b.score-a.score)[0];if(risk){$('signalTitle').textContent=`${risk.k} needs attention`;$('signal').textContent=`In the current selection, ${risk.k} combines ${pct(avg(risk.v,x=>x.sla))} SLA compliance, ${pct(avg(risk.v,x=>x.esc))} escalation and ${avg(risk.v,x=>x.res).toFixed(1)}h average resolution. This is a prioritization signal—not proof of causation—and should trigger deeper ticket-level review.`}else{$('signalTitle').textContent='No tickets selected';$('signal').textContent='Adjust the filters to continue.'}}
+['category','channel','priority'].forEach(id=>$(id).addEventListener('change',render));render();
+</script></body></html>
