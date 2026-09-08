@@ -4,9 +4,12 @@
 
 ### Support KPIs · SQL · SLA · CSAT · Operational Insights
 
-![Status](https://img.shields.io/badge/Status-Active%20Project-6D28D9?style=flat-square)
+![Status](https://img.shields.io/badge/Status-Live-6D28D9?style=flat-square)
 ![SQL](https://img.shields.io/badge/Analysis-SQL-4F46E5?style=flat-square)
-![Data](https://img.shields.io/badge/Dataset-Simulated-7C3AED?style=flat-square)
+![Data](https://img.shields.io/badge/Dataset-Synthetic-7C3AED?style=flat-square)
+![Dashboard](https://img.shields.io/badge/Dashboard-Interactive-8B5CF6?style=flat-square)
+
+**[→ Open Live Dashboard](https://support-operations-analytics.vercel.app/)**
 
 </div>
 
@@ -14,11 +17,28 @@
 
 ## Overview
 
-This project analyzes a **fictional SaaS support operation** using a simulated ticket dataset. The objective is to demonstrate how support data can be translated into operational decisions.
+This project analyzes a **fictional SaaS support operation** using a synthetic ticket dataset and an interactive dashboard. The objective is to demonstrate how support data can be translated into operational decisions rather than treated as isolated metrics.
 
-Rather than looking only at ticket volume, the analysis connects **First Response Time, Resolution Time, SLA Compliance, CSAT, escalation, reopen rate, ticket category, channel and priority**.
+The analysis connects **First Response Time, Resolution Time, SLA Compliance, CSAT, escalation, reopen rate, ticket category, channel and priority**. The live dashboard adds dynamic segmentation so the operation can be explored by category, channel and priority.
 
 > The dataset is synthetic and was created exclusively for portfolio analysis. It contains no real customer or employer data.
+
+### Live Project
+
+**[Launch Interactive Dashboard →](https://support-operations-analytics.vercel.app/)**  
+**[View Source Repository →](https://github.com/sofialozano-cx/support-operations-analytics)**
+
+---
+
+## What the Dashboard Demonstrates
+
+- Dynamic filtering by **category, channel and priority**.
+- Live calculation of **ticket volume, SLA compliance, average first response, average resolution and CSAT**.
+- Category-level comparison of ticket volume and SLA performance.
+- Operational-health table combining volume, SLA, escalation and resolution time.
+- Context-aware operational signals that distinguish between **healthy performance, monitoring signals and higher-priority risk**.
+- Direct use of the project's synthetic CSV dataset as the dashboard data source.
+- Responsive presentation for desktop and mobile.
 
 ---
 
@@ -117,6 +137,9 @@ An average CSAT of 4.50 can make the operation appear healthier than it is. SLA 
 support-operations-analytics/
 │
 ├── README.md
+├── index.html
+├── dashboard/
+│   └── index.html
 ├── data/
 │   └── support_tickets.csv
 ├── sql/
@@ -144,6 +167,8 @@ Segment by Category / Priority / Channel
         ↓
 Identify Operational Bottlenecks
         ↓
+Interactive Dashboard
+        ↓
 Recommend Support Improvements
 ```
 
@@ -151,7 +176,13 @@ Recommend Support Improvements
 
 ## Skills Demonstrated
 
-`Support Operations` · `SQL` · `Customer Experience Analytics` · `SLA` · `CSAT` · `First Response Time` · `Resolution Time` · `Escalation Rate` · `Reopen Rate` · `KPI Analysis` · `Operational Decision-Making`
+`Support Operations` · `SQL` · `Customer Experience Analytics` · `SLA` · `CSAT` · `First Response Time` · `Resolution Time` · `Escalation Rate` · `Reopen Rate` · `KPI Analysis` · `Operational Decision-Making` · `Data Visualization` · `HTML` · `CSS` · `JavaScript`
+
+---
+
+## Analytical Limitations
+
+This is a deliberately small portfolio dataset. Results should be interpreted as demonstrations of analytical method rather than production benchmarks. Category sizes vary, CSAT is not available for every ticket, and observed relationships do not establish causation. A real Support Operations analysis would additionally validate metric definitions, data completeness, business hours, SLA policy, seasonality and longer-term trends.
 
 ---
 
@@ -168,6 +199,6 @@ The data and business scenario are fictional. The analysis is portfolio work and
 ### Sofia Lozano
 Customer Experience · Technical Support · CRM & Support Operations
 
-[GitHub Profile](https://github.com/sofialozano-cx)
+**[Live Dashboard](https://support-operations-analytics.vercel.app/)** · **[GitHub Profile](https://github.com/sofialozano-cx)**
 
 </div>
