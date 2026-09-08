@@ -1,0 +1,77 @@
+/* Desktop-only readability pass. Keeps the approved 1536x1024 composition unchanged. */
+@media (min-width: 901px) {
+  .logo b{font-size:18px!important}
+  .logo small{font-size:13px!important}
+  .sidebar nav button{font-size:14.5px!important}
+  .help b{font-size:12px!important}
+  .help small{font-size:10px!important}
+  .user b,.topuser b{font-size:11.5px!important}
+  .user small,.topuser small{font-size:10px!important}
+
+  .search input{font-size:13.5px!important}
+  .search kbd{font-size:10px!important}
+  .date{font-size:11.5px!important}
+
+  .hero>div>small{font-size:13.5px!important}
+  .hero h1{font-size:36px!important}
+  .hero p{font-size:13.5px!important}
+  .system b{font-size:13.5px!important}
+  .system small{font-size:11px!important}
+
+  .kpi span{font-size:13.5px!important}
+  .kpi b{font-size:32px!important}
+  .kpi small{font-size:10.5px!important}
+  .kpi small strong{font-size:12px!important}
+
+  .cardTitle b{font-size:14.5px!important}
+  .cardTitle small{font-size:10.5px!important}
+  .cardTitle button{font-size:10.5px!important}
+
+  .chartLegend{font-size:10.5px!important}
+  .axis,.xlabels{font-size:9.5px!important}
+
+  .donut b{font-size:21px!important}
+  .donut small{font-size:9.5px!important}
+  .legendBelow{position:relative!important;top:8px!important;row-gap:7px!important}
+  .legendBelow>div{font-size:9.5px!important;grid-template-columns:12px 1fr 30px!important}
+  .legendBelow i{width:8px!important;height:8px!important}
+
+  .signal b{font-size:10.5px!important}
+  .signal small{font-size:9.5px!important}
+
+  .statusCard span{font-size:12.5px!important}
+  .statusCard b{font-size:29px!important}
+  .statusCard small{font-size:9.5px!important}
+
+  table{font-size:10.5px!important}
+  th{font-size:9.5px!important}
+  .ticketPage table{font-size:13px!important}
+  .ticketPage th{font-size:10.5px!important}
+  .ticketSummary b{font-size:19px!important}
+  .ticketSummary span{font-size:13px!important}
+
+  .bars small{font-size:8.5px!important}
+  .responseStats small{font-size:9px!important}
+  .responseStats b{font-size:17px!important}
+  .responseStats strong{font-size:10px!important}
+
+  .event b{font-size:10.5px!important}
+  .event small{font-size:9px!important}
+  .impact>small{font-size:10.5px!important}
+  .impact>b{font-size:26px!important}
+  .impact p{font-size:9.5px!important}
+
+  .secondaryHead small{font-size:11px!important}
+  .secondaryHead p{font-size:14px!important}
+  .customerCard small,.teamCard small{font-size:11px!important}
+  .customerCard h2,.teamCard h2,.info h2{font-size:18px!important}
+  .customerCard>span{font-size:13px!important}
+  .customerCard>div{font-size:12px!important}
+  .pageKpis small{font-size:12px!important}
+  .performanceTable table{font-size:13px!important}
+  .ratingRow{font-size:13px!important}
+  .teamCard p{font-size:13px!important}
+  .insight small{font-size:10px!important}
+  .insight p{font-size:13px!important}
+  .report p,.info p{font-size:13.5px!important}
+}
